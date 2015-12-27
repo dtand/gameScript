@@ -1,0 +1,90 @@
+BNF Godspeed
+
+<program> -> <stmt_list>
+<stmt_list> -> <stmt> {;<stmt>}
+<stmt> -> <expr> | <dec> | <assign>
+
+##Expressions
+<expr> -> <math_expr> 	| 
+	  <logic_expr>  | 
+	  <ifstmt> 	| 
+	  <for_loop> 	| 
+	  <while_loop>  | 
+	  <switch>
+
+##Math Expression
+<math_expr> -> <fact> {+<fact> | -<fact>}
+<fact> -> <term> {*<term> | /<term> | %<term>}
+<term> -> (<math_expr>) | <var>
+<var>  -> <ident> | <fun_inv> | <num>
+
+##Logic Expression
+<logic_expr> -> <comp_list> | <eval>
+<comp_list> -> <comp> { <logic_op><comp> }
+<logic_op> -> and | or 
+<comp> -> <math_expr> <comp_op> <math_expr> | <logic_grp>
+<comp_op> -> == | > | < | <= | >= | != |
+<logic_grp> -> (<comp>) | <ident>
+
+##If statement
+<if_stmt> -> if<if_construct>
+<if_construct> -> (<logic_expr>)’{‘ <stmt_list> ‘}’
+	           {else if<if_construct> | else<if_construct>}
+
+##For Loop
+<for_loop> -> for(<for_list>) | foreach(<ident> : <ident>)
+<for_list> -> <dec>; <logic_expr>; <assign>;  |
+              <assign>; <logic_expr>; <assign>;
+
+##While Loop
+<while_loop> -> while(<logic_expr>)’{‘ <stmt_list> ‘}’
+
+##switch
+<switch> switch(<ident>): {case: <ident>: <stmt_list> [break]} 
+default: <stmt_list> [break];
+
+##Declaration and assignment
+<dec> -> <type>: <assign>| <type>: <ident> | <obj>
+<type> -> num | list<<type>> | string
+<obj> -> obj: <ident> [from <ident>]
+<assign> -> <ident> = <math_expr> | ident = <logic_expr>
+
+
+
+
+
+
+
+
+### Examples ###
+
+##Declaring objects/classes
+obj: MainChar from Entity
+{
+     num: currentHealth = 100,
+     num: locationX = 100,
+     num: locationY = 100,
+     num: maxHealth = 100,
+     func: reset(){ x = y; y = x; return y; } returns num
+};
+
+
+##Create a list -> dynamic array
+list<num>: numList = {1,2,3,4,5};
+
+##Create a map -> dictionary type
+list<string, num>: data = {
+   “price” : 100,
+   “stock” : 24
+};
+
+##Create a string
+string: word = “hello”;
+
+##Create a num
+num: count = 0;
+
+##Create a bool
+bool: flag = true;
+
+  
